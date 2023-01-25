@@ -1,0 +1,159 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsfonts,bbm}
+\usepackage{fancyhdr,enumitem,xcolor,placeins,subcaption}
+\usepackage{graphicx} % Allows including images
+\usepackage[left=3cm, right=3cm, top =3cm, bottom = 3cm]{geometry}
+	
+\setcounter{MaxMatrixCols}{10}
+	
+	
+	
+\pagestyle{plain}
+\pagestyle{fancy} 
+\rhead{Winter 2023} 
+\chead{} 
+\lhead{ECON 33530 - Firm Dynamics and Economic Growth} 
+\lfoot{} 
+\cfoot{} 
+\rfoot{\thepage} 
+\renewcommand{\headrulewidth}{0.5pt} 
+\renewcommand{\footrulewidth}{0pt} 
+
+\title{Firm Dynamics and Economic Growth \\ \large{Problem Set I}}
+\author{Jose M. Quintero}
+\date{ }
+
+\begin{document}
+
+\maketitle
+
+In this assignment you will replicate some of the key empirical findings of Akcigit and Kerr (2018) published version, from now on referred to as AK. There will be one important difference in the sample used for the analysis: while AK uses firm data from the Census, which is not publicly available, you will use a database of publicly traded firms, Compustat.
+
+Your assignment is to replicate figures 1 and 2 from AK. Below are some guidelines for the assignment. NOTE: not all of the steps required to replicate the findings are listed below. You need to take some extra steps, which you will need to figure out yourself.
+
+Optional: if you want to have more fun, you can look at the working paper version (NBER Working Paper \#16443), which contains many additional empirical facts, and try to replicate any of them.
+
+\section{Download Data.}
+
+\begin{enumerate}[leftmargin=0pt, label=\textbf{(\alph*)}]
+
+\item Get an account on WRDS (https://wrds-www.wharton.upenn.edu) in order to access Compustat.
+
+\item Access Compustat - Capital IQ - North America. Select the monthly-updated Fundamental Annual Database.
+
+\item Download the variables you need. Hints: select a date range that looks reasonable to you. Choose "gvkey" for company code. Select "Search the Entire Database". Select "EXCH" and "FIC". Select the variables "EMP", "SALE", "XRD", "SIC" in the query.
+
+\item You will also need patent data and you will need to match patents to their assignee firms in Compustat. The NBER provides a USPTO patent database, as well as a firm identifier already matched to Compustat. You can access patents, citations and Compustat merge identifier at https://sites.google.com/site/patentdataproject/.
+
+\end{enumerate}
+
+\section{Preliminary analysis.}
+
+\begin{enumerate}[leftmargin=0pt, label=\textbf{(\alph*)}]
+
+\item Sample Selection. Keep only firms incorporated in the US (hint: use "FIC") and firms that do business in U.S. dollars (hint: use "CAD").
+
+\item Merge your Compustat sample with the patent database. To limit issues of truncation, limit your analysis to the year 1980-2000, i.e. only consider patents applied for ("appyear") between 1980-2000. What are the issues related to truncation when it comes to patents?
+\item[\textbf{(S)}] Truncation creates is that patent application is a proxy for innovation flow. Thus trucating within a period will create noise around the innovation flow, favoring firms that applied to patents during the period of interest. 
+
+\item Provide a table of summary statics (this will have to include some of the variables that you will compute in the next steps).
+\item[\textbf{(S)}] The statistics for the full sample is presented in Table \ref{tab:ss_full_sample}
+\begin{table}[htb]
+\caption{Summary Statistics}
+\label{tab:ss_full_sample}
+\input{Tables/tab0.tex}
+\scriptsize{\textbf{Notes:} Innovative is a dummy variable that takes the value of 1 whenever the firm has at least one patent during the period of interest. }
+\end{table}
+\FloatBarrier
+
+\item What is the share of firms which have at least one patent? We will refer to the firms with at least one patent as "innovative firms".
+\item[\textbf{(S)}] As seen in Table \ref{tab:ss_full_sample} the share of innovative firms is close to 30\% of the sample. 
+
+\item Compare your sample of innovative firms to the population of Compustat firms. How do they differ? Think of a way to illustrate the differences (hint: for example, differences in employment size).
+\item[\textbf{(S)}] The descriptive statistics controlling by the variable indicating if the firm has a patent during the period of interest is presented in Table \ref{tab:ss_by_inn}
+\begin{table}[htb]
+\caption{Summary Statistics}
+\label{tab:ss_by_inn}
+\vspace*{-10pt}
+\input{Tables/tab1.tex}
+\scriptsize{\textbf{Notes:} $^{***}$ denotes that the mean difference is statistically significant different than 0 at the 99\% . }
+\end{table}
+From Table \ref{tab:ss_by_inn} we see that there are significant differences between innovative firms and non-innovative firms. On average
+\item From now on, focus your analysis on the sample of innovative firms. 
+
+\end{enumerate}
+
+\FloatBarrier
+\section{Firm Growth by Firm Size. (Figure 1).}
+
+\begin{enumerate}[leftmargin=0pt, label=\textbf{(\alph*)}]
+
+\item Build the main variable of employment growth used in the paper, i.e.
+
+$E m p G r_{f, t}=\left(E m p_{f,+1 t}-E m p_{f, t}\right) / E m p_{f, t}$. Apply the same winsorization discussed in the paper.
+
+\item Replicate Figure 1 and the corresponding regression. On the x-axis, you will use $E m p_{f, t}$. On the y-axis, you will use $E m p G r_{f, t}$. Hint: you can use the command binscatter.
+\item[\textbf{(S)}] The 
+\begin{figure}[htb]
+\caption{Employment Growth by Firm Size}
+\label{fig:growth_firm_size}
+\centering
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{Figures/Figure1b.pdf}
+         \caption{Percentage Growth}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{Figures/Figure1c.pdf}
+         \caption{Haltinvanger Growth}
+     \end{subfigure}
+\end{figure}
+
+\item Replicate your graph for the alternative measure of firm growth rate cited in the paper, i.e. $E m p G r_{f, t}=\left(E m p_{f,+1 t}-E m p_{f, t}\right) /\left(0.5\left(E m p_{f,+1 t}+E m p_{f, t}\right)\right)$.
+
+\end{enumerate}
+
+
+\FloatBarrier
+\section{Innovation Intensity by Firm Size. (Figure 2).}
+
+\begin{enumerate}[leftmargin=0pt, label=\textbf{(\alph*)}]
+
+
+\item Compute the number of patents per employment (i.e. total number of patents applied for in a given year by a firm, divided by employment). How lumpy is patenting in your dataset? Decide whether to apply the same five-year windows discussed in the paper and explain why.
+
+\item Replicate Figure 2 and the corresponding regression.
+
+\end{enumerate}
+
+\section{R\&D Intensity by Firm Size.}
+
+\begin{enumerate}[leftmargin=0pt, label=\textbf{(\alph*)}]
+
+\item In class, we discussed how the relationship between $R \& D$ intensity and firm size has evolved over time. We will replicate this finding here.
+
+\item Run a regression of $\log \mathrm{R} \& \mathrm{D}$ expenditure over log sales in each year, with industry fixed effects :
+
+\begin{equation*}
+\ln \left(R \& D_{i, j, t}\right)=\beta_{0}+\beta_{1} \ln \left(\text { Sales }_{i, j, t-1}\right)+\delta_{j}+\epsilon_{i, j, t}
+\end{equation*}
+
+where $i$ indicates a firm, $j$ a sector and $t$ a year. $\delta_{j}$ are sector fixed-effects. Your coefficient of interest is $\beta_{1}$. You will obtain a different coefficient $\beta_{1}$ for every year in your sample. Plot the coefficients you obtain over time, including the standard errors. Hint: You will have years on the $\mathrm{x}$-axis and $\beta_{1}$ on the $\mathrm{y}$-axis.
+
+\item How did the relationship between R\&D intensity and firm size evolve over time? Explain.
+\end{enumerate}
+
+\section{Discussion}
+
+\begin{enumerate}[leftmargin=0pt, label=\textbf{(\alph*)}]
+
+\item How do your results compare to the findings in the paper? Explain why.
+
+\item Do you believe that there are limitations in using Compustat versus Census data for the analysis? If so, what type of limitations?
+
+\item What do these findings imply? How are they useful to learn something about firm dynamics and innovation? How could you use them to inform a theoretical model?
+
+\end{enumerate}
+\end{document}

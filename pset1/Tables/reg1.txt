@@ -1,0 +1,10 @@
+	(1)
+VARIABLES	empgr
+	
+log_emp	-0.0833***
+	(0.0146)
+	
+Observations	46,295
+R-squared	0.0169
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	
